@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spring.boot.sports.mapper.CourtInfoMapper" >
+
+    <sql id="Base_Column_List" >
+        gid as "gid",
+        shop_id as "shopId",
+        book_date as "bookDate",
+        week_day as "weekDay",
+        price as "price",
+        start_time as "startTime",
+        court as "court",
+        time_interval as "timeInterval",
+        booking as "booking",
+        book_param as "bookParam",
+        group_ids as "groupIds",
+        content as "content",
+        record_status as "recordStatus",
+        update_user as "updateUser",
+        create_user as "createUser",
+        update_time as "updateTime",
+        create_time as "createTime"
+    </sql>
+
+    <select id="fetchRecordList" resultType="com.spring.boot.feign.pojo.sports.CourtInfo">
+        SELECT
+        <include refid="Base_Column_List" ></include>
+        FROM court_info s0
+        <include refid="findCourtInfoWhere"></include>
+        ORDER BY update_time DESC
+    </select>
+
+    <sql id="findCourtInfoWhere">
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+            <include refid="courtInfoSql" ></include>
+        </trim>
+    </sql>
+
+    <sql id="courtInfoSql">
+        <if test="gid != null and gid != ''">
+            AND s0.gid = #{gid,jdbcType=VARCHAR}
+        </if>
+        <if test="shopId != null and shopId != ''">
+            AND s0.shop_id = #{shopId,jdbcType=VARCHAR}
+        </if>
+        <if test="bookDate != null and bookDate != ''">
+            AND s0.book_date LIKE CONCAT('%',#{bookDate,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="weekDay != null and weekDay != ''">
+            AND s0.week_day LIKE CONCAT('%',#{weekDay,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="price != null">
+            AND s0.price = #{price,jdbcType=INTEGER}
+        </if>
+        <if test="startTime != null and startTime != ''">
+            AND s0.start_time LIKE CONCAT('%',#{startTime,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="court != null and court != ''">
+            AND s0.court LIKE CONCAT('%',#{court,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="timeInterval != null and timeInterval != ''">
+            AND s0.time_interval LIKE CONCAT('%',#{timeInterval,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="booking != null and booking != ''">
+            AND s0.booking LIKE CONCAT('%',#{booking,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="bookParam != null and bookParam != ''">
+            AND s0.book_param LIKE CONCAT('%',#{bookParam,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="groupIds != null and groupIds != ''">
+            AND s0.group_ids LIKE CONCAT('%',#{groupIds,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="content != null and content != ''">
+            AND s0.content LIKE CONCAT('%',#{content,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="recordStatus != null">
+            AND s0.record_status = #{recordStatus,jdbcType=INTEGER}
+        </if>
+    </sql>
+
+</mapper>

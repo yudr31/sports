@@ -1,0 +1,18 @@
+server:
+  port: 9999
+
+spring:
+  application:
+    name: sports
+
+# mybatis
+mybatis:
+  typeAliasesPackage: com.spring.boot.sports.mapper
+  mapperLocations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+
+swagger:
+  api:
+    description: 权限管理服务
