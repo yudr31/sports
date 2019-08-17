@@ -69,7 +69,7 @@ public class QuyundongService {
     public void msgNotify(){
         String routingKey ="phone_message.phone_call";
         Map<String, String> map = new HashMap();
-        map.put("phone", "15926350676");
+        map.put("phone", "");
         map.put("msg", "有可预订球场！");
         String msg = JsonUtil.toString(map);
         rabbitTemplate.convertAndSend(MqConstant.NOTIFY_EXCHANGE, routingKey, msg);
