@@ -11,6 +11,13 @@ spring:
     username: root
     password: 123456
 
+  rabbitmq:
+    host: 192.168.95.128
+    port: 5672
+    username: admin
+    password: admin
+    virtual-host: local
+
 #spring.jackson.serialization.write-dates-as-timestamps=true
 #spring.jackson.date-format=com.fasterxml.jackson.databind.util.StdDateFormat
 
