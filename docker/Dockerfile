@@ -7,4 +7,4 @@ WORKDIR /home
 
 EXPOSE 9999
 
-CMD ["java", "-jar", "-Pspring.profiles.active=dev", "sports.jar"]
+CMD ["java", "-jar", "-Dspring.profiles.active=dev", "sports.jar"]
