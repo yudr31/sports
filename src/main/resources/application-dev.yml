@@ -1,0 +1,26 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka.gulang.work/eureka  # 设置与Eureka Server交互的地址查询服务和注册服务
+  instance:
+    instance-id: gateway-id
+    prefer-ip-address: true
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.101.151.126:3306/sports?useUnicode=true&useSSL=false&characterEncoding=UTF8
+    username: root
+    password: root
+
+  rabbitmq:
+    host: 47.101.151.126
+    port: 5672
+    username: admin
+    password: admin
+    virtual-host: local
+
+#spring.jackson.serialization.write-dates-as-timestamps=true
+#spring.jackson.date-format=com.fasterxml.jackson.databind.util.StdDateFormat
+
+python_web_url: http://test.gulang.work
