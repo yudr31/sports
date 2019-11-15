@@ -23,4 +23,4 @@ spring:
 #spring.jackson.serialization.write-dates-as-timestamps=true
 #spring.jackson.date-format=com.fasterxml.jackson.databind.util.StdDateFormat
 
-python_web_url: http://test.gulang.work
+python_web_url: http://47.101.151.126:8888
