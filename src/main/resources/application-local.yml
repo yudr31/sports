@@ -6,19 +6,19 @@ eureka:
     instance-id: gateway-id
     prefer-ip-address: true
 
-#spring:
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://47.101.151.126:3306/sports?useUnicode=true&useSSL=false&characterEncoding=UTF8
-#    username: root
-#    password: root
-#
-#  rabbitmq:
-#    host: 47.101.151.126
-#    port: 5672
-#    username: admin
-#    password: admin
-#    virtual-host: local
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://10.10.11.208:3306/sports?useUnicode=true&useSSL=false&characterEncoding=UTF8
+    username: root
+    password: testsmysql
+
+  rabbitmq:
+    host: 10.10.11.208
+    port: 5672
+    username: admin
+    password: admin
+    virtual-host: local
 
 #spring.jackson.serialization.write-dates-as-timestamps=true
 #spring.jackson.date-format=com.fasterxml.jackson.databind.util.StdDateFormat
