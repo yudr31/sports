@@ -77,7 +77,8 @@ public class QuyundongService {
 
     public void msgNotify(BookingInfo bookingInfo){
         log.info("发送通知");
-        String routingKey = 1 == bookingInfo.getNotifyType() ? "phone_message" : "phone_call";
+        String routingKey = 1 == bookingInfo.getNotifyType() ? "phone_message" :
+                2 == bookingInfo.getNotifyType() ? "phone_call" : "dingding_message";
         Map<String, String> map = new HashMap();
         map.put("phone", bookingInfo.getPhone());
         map.put("msg", "有可预订球场！");
