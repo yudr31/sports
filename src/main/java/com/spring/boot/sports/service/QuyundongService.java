@@ -62,7 +62,7 @@ public class QuyundongService {
 
     @Scheduled(cron = "0/30 * * * * ?")
     public void cronJob(){
-        System.out.println("开始爬取球场信息");
+        log.info("开始爬取球场信息");
         getData();
     }
 
@@ -76,6 +76,7 @@ public class QuyundongService {
     }
 
     public void msgNotify(BookingInfo bookingInfo){
+        log.info("发送通知");
         String routingKey = 1 == bookingInfo.getNotifyType() ? "phone_message" : "phone_call";
         Map<String, String> map = new HashMap();
         map.put("phone", bookingInfo.getPhone());
@@ -95,6 +96,7 @@ public class QuyundongService {
         }
         String availableCourt = getAvailableCourt(courtList, bookingInfo);
         if (StringUtils.isNotEmpty(availableCourt)){
+            log.info("有可预订的球场！");
             msgNotify(bookingInfo);
             bookingInfo.setNotifyCount(bookingInfo.getNotifyCount() + 1);
             bookingInfo.setNotifyTime(LocalDateTime.now());
@@ -173,11 +175,13 @@ public class QuyundongService {
     private boolean doNextGrab(BookingInfo bookInfo){
         // 通知次数达到最大通知次数，无需进行继续爬虫
         if (bookInfo.getNotifyCount() == bookInfo.getMaxNotify()){
+            log.info("通知次数达到最大次数!");
             return false;
         }
         LocalDateTime nextNotifyTime = bookInfo.getNotifyTime().plusMinutes(bookInfo.getTimeInterval());
         // 当前时间小于下次通知时间，即未到下次通知时间，无需进行继续爬虫
         if (LocalDateTime.now().compareTo(nextNotifyTime) < 0){
+            log.info("当前时间小于下次通知时间!不进行爬取");
             return false;
         }
         return bookInfo.getBookingState() == 1; // 1-开启预订状态
