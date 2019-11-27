@@ -60,7 +60,7 @@ public class QuyundongService {
         return restTemplate;
     }
 
-    @Scheduled(cron = "0/30 * * * * ?")
+    @Scheduled(cron = "0 0/2 * * * ?")
     public void cronJob(){
         log.info("开始爬取球场信息");
         getData();
@@ -93,6 +93,7 @@ public class QuyundongService {
         }
         List<CourtInfo> courtList = testGrabCourtList(bookingInfo);
         if (CollectionUtils.isEmpty(courtList)){
+            log.info("爬取的球场信息为空！请检查代码！");
             return null;
         }
         String availableCourt = getAvailableCourt(courtList, bookingInfo);
@@ -114,6 +115,7 @@ public class QuyundongService {
         String url = pythonWebUrl + "/craw_court";
         url += "?week_days=" + bookingInfo.getBookingDate();
         url += "&book_time=" + getBookTime(bookingInfo).trim();
+        url += "&user_id=" + bookingInfo.getOrderUser();
         ResponseEntity<String> result = restTemplate.getForEntity(url, String.class);
         if (HttpStatus.OK.equals(result.getStatusCode())){
             String stringList = result.getBody().replaceAll("'","\"");
