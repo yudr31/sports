@@ -75,13 +75,13 @@ public class QuyundongService {
         rabbitTemplate.convertAndSend(MqConstant.NOTIFY_EXCHANGE, routingKey, msg);
     }
 
-    public void msgNotify(BookingInfo bookingInfo){
+    public void msgNotify(BookingInfo bookingInfo, String availableCourt){
         log.info("发送通知");
         String routingKey = 1 == bookingInfo.getNotifyType() ? "phone_message" :
                 2 == bookingInfo.getNotifyType() ? "phone_call" : "dingding_message";
         Map<String, String> map = new HashMap();
         map.put("phone", bookingInfo.getPhone());
-        map.put("msg", "有可预订球场！");
+        map.put("msg", bookingInfo.getBookingDate() + " " + availableCourt + " " + bookingInfo.getBookingTime() );
         String msg = JsonUtil.toString(map);
         rabbitTemplate.convertAndSend(MqConstant.NOTIFY_EXCHANGE, routingKey, msg);
     }
@@ -99,7 +99,7 @@ public class QuyundongService {
         String availableCourt = getAvailableCourt(courtList, bookingInfo);
         if (StringUtils.isNotEmpty(availableCourt)){
             log.info("有可预订的球场！");
-            msgNotify(bookingInfo);
+            msgNotify(bookingInfo, availableCourt);
             bookingInfo.setNotifyCount(bookingInfo.getNotifyCount() + 1);
             bookingInfo.setNotifyTime(LocalDateTime.now());
             if (bookingInfo.getOrderNow() == 1){
@@ -109,6 +109,13 @@ public class QuyundongService {
         bookingInfo.setGrabCount(bookingInfo.getGrabCount() + 1);
         bookingInfoService.updateSelectiveByKey(bookingInfo);
         return courtList;
+    }
+
+    public void doLogin(String userId){
+        String url = pythonWebUrl + "/login";
+        url += "?user_id=" + userId;
+        ResponseEntity<String> result = restTemplate.getForEntity(url, String.class);
+        System.out.println(result.getBody());
     }
 
     private List<CourtInfo> testGrabCourtList(BookingInfo bookingInfo){

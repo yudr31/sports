@@ -19,6 +19,8 @@ public class BookingInfoService extends BaseBeanService<BookingInfoMapper, Booki
 
     @Autowired
     private BookingInfoMapper bookingInfoMapper;
+    @Autowired
+    private QuyundongService quyundongService;
 
     @Override
     public Integer insertSelective(BookingInfo bookingInfo) {
@@ -36,7 +38,12 @@ public class BookingInfoService extends BaseBeanService<BookingInfoMapper, Booki
             bookingInfo.setGrabCount(0);
             bookingInfo.setNotifyCount(0);
         }
-        return super.updateSelectiveByKey(bookingInfo);
+        Integer count = super.updateSelectiveByKey(bookingInfo);
+        BookingInfo record = fetchRecordByGid(bookingInfo.getGid());
+        if (record.getBookingState() == 1 && StringUtils.isNotEmpty(record.getOrderUser())){
+            quyundongService.doLogin(record.getOrderUser());
+        }
+        return count;
     }
 
 }
