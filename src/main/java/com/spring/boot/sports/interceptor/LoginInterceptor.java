@@ -41,7 +41,7 @@ public class LoginInterceptor {
         if (login){
             return;
         }
-//        throw new BaseException("1","用户未登录");
+        throw new BaseException("1","用户未登录");
     }
 
 }
